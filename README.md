@@ -79,14 +79,23 @@ Request this endpoint to retrieve the form data for a certain form_id.
 ```
 
 ### Access Code: Request
-Request this endpoint to obtain an access code. Use this code as header with your entry submit requests.
+Request this endpoint to obtain an access code. Use this code as header with your entry submit requests. Enabling "Allow anonymous entries" in your form configuration will allow users to create an entry without providing contact details.
 
-`POST /client/entry/create`
+`POST /client/entry/create/<form_id>`
 
 **Response Class (Status 200):**
 ```
 {
   accessCode: "XXXXXXXXXXXXXXX"
+}
+```
+
+#### Request Body Example (optional)
+```
+{
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john@example.com"
 }
 ```
 
