@@ -3,26 +3,20 @@ Read the documentation for the Robobot API carefully if you plan to implement co
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Quickstart](#quickstart)
-3. [Basics](#basics)
+2. [Basics](#basics)
     1. [HTTP Methods](#http-methods)
     2. [JSON](#json)
     3. [Authentication](#introduction)
-4. [API Reference](#api-reference)
+3. [API Reference](#api-reference)
     1. [Access Code: Request](#access-code-request)
     2. [Form: Request](#form-request)
     3. [Next: Request](#next-request)
     4. [Next: Response Types](#response-types)
     5. [Report](#report)
-5. [Local Cache Invalidation](#local-cache-invalidation)
+4. [Local Cache Invalidation](#local-cache-invalidation)
 
 ## Introduction
 Robobot aims to deliver a developer friendly approach for integrating conversational forms, created through the Robobot Dashboard, in existing software products.
-
-## Quickstart
-
-...
-
 
 ## Basics
 
@@ -41,15 +35,17 @@ curl "https://api.robobot.app/client/entry/submit/<form_id>" \
 ```
 
 ### Authentication
-Robobot API has a custom authentication mechanism. It involves including a non-default HTTP header named "AccessCode" with your API requests. Populate the property with a value you want to group your answer data with. We call this an entry.
+Robobot API has a custom authentication mechanism. It involves including a non-default HTTP header named "ApiCode" with your API requests. Provide your personal ApiCode formatted as xxxx in this header to open up requests to your forms.
+Use the "AccessCode" header and populate it with an accesscode to group answer data. We call grouped answers an entry.
 
-An example of a curl request could look like this. Make sure to replace the XXX...X with your obtained access code. Dive into the API reference to see how you generate your own access code.
+An example of a curl request could look like this. Make sure to replace the XXX...X with your obtained access code and provide a form_id. Dive into the API reference to see how you generate your own access code.
 
 ```
 curl "https://api.robobot.app/client/entry/submit/<form_id>" \
     -X "POST" \
     -H "Content-Type: application/json" \
-    -H "AccessCode: XERR9JENS2QS5W5"
+    -H "ApiCode: xxxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxx"
+    -H "AccessCode: XXXXXXXXXXXXXXX"
 ```
 
 ## API Reference
@@ -72,6 +68,7 @@ Request this endpoint to retrieve the form data for a certain form_id.
         gaTrackingCode: null,
         image: null,
         allowOpenEntry: true,
+        allowAnonymousEntry: true,
         updated: 1581677549
     },
     next: ...
@@ -79,7 +76,12 @@ Request this endpoint to retrieve the form data for a certain form_id.
 ```
 
 ### Access Code: Request
-Request this endpoint to obtain an access code. Use this code as header with your entry submit requests. Enabling "Allow anonymous entries" in your form configuration will allow users to create an entry without providing contact details.
+Request this endpoint to obtain an access code. Use this code as header with your entry submit requests.
+
+1. Enabling "Allow open entries" in your form configuration will allow you to create an entry by providing contact details
+2. Enabling "Allow anonymous entries" in your form configuration will allow you to create an entry without providing contact details.
+
+If the email property is missing in the request body and "Allow anonymous entries" is disabled, the API will return a 403.
 
 `POST /client/entry/create/<form_id>`
 
