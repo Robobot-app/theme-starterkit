@@ -110,7 +110,7 @@ Request this endpoint to retrieve the next element for your form. This endpoint 
 ```
 {
     element_id<string>: [],                     // static-text (submit an empty array for this type)
-    element_id<string>: option_id<number>,      // input-radios
+    element_id<string>: option_id<number>,      // input-options
     element_id<string>: input_text<string>,     // input-text
     element_id<string>: input_number<number>    // input-number
 }
@@ -120,12 +120,12 @@ Request this endpoint to retrieve the next element for your form. This endpoint 
 ```
 {
     "1": [],                        // static-text
-    "2": 2,                         // input-radios
+    "2": 2,                         // input-options
     "3": 10,                        // input-number
-    "5": 2,                         // input-radios
+    "5": ["2"],                     // input-options
     "6": "email@example.com",       // input-text
     "108": 9,                       // input-number
-    "153": 2,                       // input-radios
+    "153": ["2","3"],               // input-options
     "4": "Nec condimentum ex!"      // input-text
 }
 ```
@@ -148,14 +148,14 @@ The response of this request differs based on the current state of your form. Wh
 }
 ```
 
-#### Response Type: "input-radios"
+#### Response Type: "input-options"
 ```
 {
     form: ...
     next: {
         id: 123
         title: "Ut nec condimentum ex, eget aliquam nulla?"
-        type: "input-radios"
+        type: "input-options"
         description: "Duis vulputate ipsum nec auctor tempus."
         params: {
             options: [
